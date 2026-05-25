@@ -453,6 +453,14 @@ body {
   will-change: opacity, transform;
 }
 
+  /* Знаходить саме слово і абсолютно всі теги, які скрипт створить всередині нього */
+.italic-word, 
+.italic-word *, 
+.italic-word span, 
+.italic-word div {
+    font-style: italic !important;
+}
+  
 .hero-overlay-label {
   font-family: var(--font);
   font-size: 11px; font-weight: 600;
@@ -1424,7 +1432,7 @@ footer.site-footer {
       <h1 class="hero-title">
         Сучасна<br>
         стоматологія<br>
-        <em>з <i>турботою</i></em>
+        <em>з <span class="italic-word">турботою</span></em>
       </h1>
       <p class="hero-sub">Професійна допомога для здорової впевненої посмішки у будь-якому віці — з комфортом, точністю та довірою.</p>
       <div class="hero-btns">
