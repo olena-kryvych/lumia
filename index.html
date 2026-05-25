@@ -29,6 +29,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<!-- GSAP Animation Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -243,17 +246,59 @@ body {
 }
 .nav-logo span { color: #4F8EF7; }
 
-.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links { 
+  display: flex; 
+  gap: 12px; 
+  list-style: none;
+}
+
+.nav-links li {
+  position: relative;
+}
 
 .nav-links a {
   font-family: var(--font);
-  font-size: 14px; font-weight: 500;
+  font-size: 14px; 
+  font-weight: 500;
   letter-spacing: -0.02em;
-  color: rgba(255,255,255,0.88); text-decoration: none;
-  transition: color 0.2s;
+  color: rgba(255,255,255,0.88); 
+  text-decoration: none;
+  transition: all 0.3s ease;
   text-shadow: 0 1px 4px rgba(0,0,0,.3);
+  
+  /* Pill style */
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 24px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.08);
+  
+  animation: pillNavSlideIn 0.6s ease forwards;
+  opacity: 0;
 }
-.nav-links a:hover { color: #fff; }
+
+@keyframes pillNavSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nav-links li:nth-child(1) a { animation-delay: 0.05s; }
+.nav-links li:nth-child(2) a { animation-delay: 0.1s; }
+.nav-links li:nth-child(3) a { animation-delay: 0.15s; }
+.nav-links li:nth-child(4) a { animation-delay: 0.2s; }
+.nav-links li:nth-child(5) a { animation-delay: 0.25s; }
+
+.nav-links a:hover { 
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
 
 .nav-cta a {
   font-family: var(--font);
@@ -1172,6 +1217,172 @@ footer.site-footer {
     right: 16px;
   }
 }
+
+/* ============================================================
+  TextType для ТІЛЬКИ hero-title та sec-title
+============================================================ */
+
+@keyframes textTypeWrite {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* ТІЛЬКИ ці два класи мають анімацію */
+.hero-title.text-type-animate,
+.sec-title.text-type-animate {
+  animation: textTypeWrite 1.5s cubic-bezier(0.33, 0.66, 0.66, 1) ease-out forwards;
+}
+
+.text-type-cursor {
+  display: inline-block;
+  margin-left: 2px;
+  animation: cursorBlink 0.5s infinite;
+}
+
+@keyframes cursorBlink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* ============================================================
+  MASONRY COMPONENT CSS
+============================================================ */
+.masonry-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 600px;
+}
+
+.masonry-list {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.masonry-item-wrapper {
+  position: absolute;
+  will-change: transform, width, height, opacity;
+  padding: 6px;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  transition: box-shadow 0.3s ease;
+}
+
+.masonry-item-wrapper:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.masonry-item-img {
+  position: relative;
+  background-size: cover;
+  background-position: center center;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 10px 50px -10px rgba(0, 0, 0, 0.2);
+}
+
+/* ============================================================
+  REVEAL ON SCROLL ANIMATIONS
+============================================================ */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-down {
+  opacity: 0;
+  transform: translateY(-30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in-down.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-in-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.fade-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.scale-in {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.scale-in.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Stagger animation for lists */
+.reveal-list > * {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.reveal-list > *.visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: revealStagger 0.6s ease forwards;
+}
+
+@keyframes revealStagger {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Blur to focus animation */
+.blur-focus {
+  opacity: 0;
+  filter: blur(10px);
+  transition: opacity 0.8s ease, filter 0.8s ease;
+}
+
+.blur-focus.visible {
+  opacity: 1;
+  filter: blur(0);
+}
 </style>
 </head>
 <body>
@@ -1257,7 +1468,7 @@ footer.site-footer {
 
   <div class="feat-header reveal">
     <span class="sec-label">Переваги</span>
-    <div class="sec-title">Чому обирають<br>Lumia Dental</div>
+    <div class="sec-title">Чому обирають<br> Lumia Dental</div>
     <button class="btn-feat-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Дізнатись більше</button>
   </div>
 
@@ -1345,7 +1556,7 @@ footer.site-footer {
   <div class="services-header reveal">
     <div>
       <span class="sec-label">Наші послуги</span>
-      <div class="services-title">Відкрийте наші<br>фірмові послуги</div>
+      <div class="sec-title">Відкрийте наші<br>фірмові послуги</div>
     </div>
     <div class="services-right">
       <p class="services-desc">Сучасна стоматологічна допомога з комфортом, точністю та увагою до деталей. Ми створюємо спокійне середовище, де кожен візит — без стресу.</p>
@@ -1366,7 +1577,7 @@ footer.site-footer {
   <div class="svc-carousel-wrap reveal">
     <div class="svc-carousel-track" id="svc-track">
       <div class="svc-photo-card">
-        <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779392596/Cinematic_vertical_portrait__same_young_202605212139_ntidta.jpg" alt="Відбілювання" loading="lazy" width="400" height="600">
+        <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779689655/1%D1%84%D0%BE%D1%82%D0%BE_p3knqe.jpg" alt="Відбілювання" loading="lazy" width="400" height="600">
         <div class="svc-photo-overlay"></div>
         <div class="svc-photo-info">
           <div><div class="svc-photo-name">Відбілювання</div><div class="svc-photo-price">від 2 800 грн</div></div>
@@ -1374,7 +1585,7 @@ footer.site-footer {
         </div>
       </div>
       <div class="svc-photo-card">
-        <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779392597/Cinematic_vertical_portrait__same_Ukrainian_202605212140_dqznnk.jpg" alt="Імплантація" loading="lazy" width="400" height="600">
+        <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779689656/2%D1%84%D0%BE%D1%82%D0%BE_jc4ots.jpg" alt="Імплантація" loading="lazy" width="400" height="600">
         <div class="svc-photo-overlay"></div>
         <div class="svc-photo-info">
           <div><div class="svc-photo-name">Імплантація</div><div class="svc-photo-price">від 18 000 грн</div></div>
@@ -1382,7 +1593,7 @@ footer.site-footer {
         </div>
       </div>
       <div class="svc-photo-card">
-        <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779392597/Cinematic_vertical_close-medium_shot__young_202605212141_d8jfj8.jpg" alt="Ортодонтія" loading="lazy" width="400" height="600">
+        <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779689656/3%D1%84%D0%BE%D1%82%D0%BE_ub65y5.jpg" alt="Ортодонтія" loading="lazy" width="400" height="600">
         <div class="svc-photo-overlay"></div>
         <div class="svc-photo-info">
           <div><div class="svc-photo-name">Ортодонтія</div><div class="svc-photo-price">від 22 000 грн</div></div>
@@ -1390,7 +1601,7 @@ footer.site-footer {
         </div>
       </div>
       <div class="svc-photo-card">
-        <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779393350/Cinematic_vertical_portrait__elegant_Ukrainian_202605212151_qppxei.jpg" alt="Естетика" loading="lazy" width="400" height="600">
+        <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779689656/4%D1%84%D0%BE%D1%82%D0%BE_vymuav.jpg" alt="Естетика" loading="lazy" width="400" height="600">
         <div class="svc-photo-overlay"></div>
         <div class="svc-photo-info">
           <div><div class="svc-photo-name">Естетика</div><div class="svc-photo-price">від 8 500 грн</div></div>
@@ -1398,7 +1609,7 @@ footer.site-footer {
         </div>
       </div>
       <div class="svc-photo-card">
-        <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779392688/Cinematic_vertical_portrait__Ukrainian_child_202605212143_tm5ixt.jpg" alt="Дитяча стоматологія" loading="lazy" width="400" height="600">
+        <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779689656/5%D1%84%D0%BE%D1%82%D0%BE_iilljg.jpg" alt="Дитяча стоматологія" loading="lazy" width="400" height="600">
         <div class="svc-photo-overlay"></div>
         <div class="svc-photo-info">
           <div><div class="svc-photo-name">Дитяча стоматологія</div><div class="svc-photo-price">від 800 грн</div></div>
@@ -1406,7 +1617,7 @@ footer.site-footer {
         </div>
       </div>
       <div class="svc-photo-card">
-        <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779393350/Cinematic_vertical_portrait__Ukrainian_woman_202605212155_wts2t8.jpg" alt="Терапія" loading="lazy" width="400" height="600">
+        <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779689656/6%D1%84%D0%BE%D1%82%D0%BE_wm8uvx.jpg" alt="Терапія" loading="lazy" width="400" height="600">
         <div class="svc-photo-overlay"></div>
         <div class="svc-photo-info">
           <div><div class="svc-photo-name">Терапія</div><div class="svc-photo-price">від 900 грн</div></div>
@@ -1435,7 +1646,7 @@ footer.site-footer {
   </div>
   <div class="doctors-grid">
     <div class="doc-card reveal">
-      <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779369999/cinematic_still_of_a_female_202605211520_bowz5a.jpg" alt="Марія Коваленко" loading="lazy" width="400" height="500">
+      <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779688887/1%D0%BB%D1%96%D0%BA%D0%B0%D1%80_evie8c.jpg" alt="Марія Коваленко" loading="lazy" width="400" height="500">
       <div class="doc-info">
         <div class="doc-tag">Ортопед · Імплантолог</div>
         <h3>Марія Коваленко</h3>
@@ -1443,7 +1654,7 @@ footer.site-footer {
       </div>
     </div>
     <div class="doc-card reveal">
-      <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779389035/cinematic_still_of_a_male_202605211520_t81eby.jpg" alt="Олег Петренко" style="object-position:center top" loading="lazy" width="400" height="500">
+      <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779688888/2%D0%BB%D1%96%D0%BA%D0%B0%D1%80_dhhjsi.jpg" alt="Олег Петренко" style="object-position:center top" loading="lazy" width="400" height="500">
       <div class="doc-info">
         <div class="doc-tag">Терапевт · Ендодонтист</div>
         <h3>Олег Петренко</h3>
@@ -1451,7 +1662,7 @@ footer.site-footer {
       </div>
     </div>
     <div class="doc-card reveal">
-      <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779369879/cinematic_still_of_a_young_202605211520_exvpjz.jpg" alt="Юлія Бондаренко" loading="lazy" width="400" height="500">
+      <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779688888/3%D0%BB%D1%96%D0%BA%D0%B0%D1%80_zd6bpw.jpg" alt="Юлія Бондаренко" loading="lazy" width="400" height="500">
       <div class="doc-info">
         <div class="doc-tag">Ортодонт</div>
         <h3>Юлія Бондаренко</h3>
@@ -1459,7 +1670,7 @@ footer.site-footer {
       </div>
     </div>
     <div class="doc-card reveal">
-      <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779369879/cinematic_still_of_a_male_202605211523-2_xlwgbq.jpg" alt="Андрій Савченко" loading="lazy" width="400" height="500">
+      <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779688888/4%D0%BB%D1%96%D0%BA%D0%B0%D1%80_xtj6qf.jpg" alt="Андрій Савченко" loading="lazy" width="400" height="500">
       <div class="doc-info">
         <div class="doc-tag">Хірург · Пародонтолог</div>
         <h3>Андрій Савченко</h3>
@@ -1467,7 +1678,7 @@ footer.site-footer {
       </div>
     </div>
     <div class="doc-card reveal">
-      <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779369879/cinematic_still_of_a_male_202605211523_ksiuui.jpg" alt="Дмитро Шевченко" loading="lazy" width="400" height="500">
+      <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779688888/5%D0%BB%D1%96%D0%BA%D0%B0%D1%80_skxobr.jpg" alt="Дмитро Шевченко" loading="lazy" width="400" height="500">
       <div class="doc-info">
         <div class="doc-tag">Естетична стоматологія</div>
         <h3>Дмитро Шевченко</h3>
@@ -1475,7 +1686,7 @@ footer.site-footer {
       </div>
     </div>
     <div class="doc-card reveal">
-      <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779377209/cinematic_still_of_a_young_202605211525_kqadrr.jpg" alt="Оксана Литвин" loading="lazy" width="400" height="500">
+      <img src="https://res.cloudinary.com/diktorrxz/image/upload/q_auto/f_auto/v1779688888/6%D0%BB%D1%96%D0%BA%D0%B0%D1%80_wldpka.jpg" alt="Оксана Литвин" loading="lazy" width="400" height="500">
       <div class="doc-info">
         <div class="doc-tag">Дитячий стоматолог</div>
         <h3>Оксана Литвин</h3>
@@ -1492,7 +1703,7 @@ footer.site-footer {
 <section class="reviews" id="reviews">
   <div class="reviews-header reveal">
     <span class="sec-label">Відгуки</span>
-    <div class="sec-title" style="margin-bottom:0">Досвід наших пацієнтів,<br>що змінює життя</div>
+    <div class="sec-title" style="margin-bottom:0">Досвід наших пацієнтів,<br> що змінює життя</div>
   </div>
 
   <div class="rev-carousel-wrap reveal">
@@ -1537,7 +1748,7 @@ footer.site-footer {
 <section class="cta" id="cta">
   <div class="cta-left reveal">
     <span class="sec-label">Перший крок</span>
-    <h2>Перший огляд<br>— безкоштовно</h2>
+     <div class="sec-title" style="margin-bottom:0">Перший огляд<br>— безкоштовно</div>
     <p>Запишіться онлайн. Ми передзвонимо протягом 15 хвилин і підберемо зручний час.</p>
   </div>
   <div class="cta-form reveal">
@@ -1607,7 +1818,7 @@ footer.site-footer {
       </div>
     </div>
     <div class="footer-slogan">
-      <p>Сучасна стоматологія<br>з турботою</p>
+      <p>Сучасна стоматологія<br>з <i>турботою</i></p>
     </div>
   </div>
 
@@ -1724,6 +1935,64 @@ function setupNavigation() {
 
 // ── Ініціалізація після завантаження DOM ──
 document.addEventListener('DOMContentLoaded', function() {
+  // ── TextType для ТІЛЬКИ hero-title та sec-title ──
+  const initTextType = () => {
+    // Зберегти оригінальні тексти
+    const heroTitle = document.querySelector('.hero-title');
+    const secTitles = document.querySelectorAll('.sec-title');
+    
+    // Функція для печатання тексту
+    const typeText = (element, text, speed = 40) => {
+      let index = 0;
+      element.textContent = '';
+      element.classList.add('text-type-animate');
+      
+      const type = () => {
+        if (index < text.length) {
+          element.textContent += text[index];
+          index++;
+          setTimeout(type, speed);
+        } else {
+          // Додати курсор в кінці
+          const cursor = document.createElement('span');
+          cursor.className = 'text-type-cursor';
+          cursor.textContent = '|';
+          element.appendChild(cursor);
+        }
+      };
+      
+      type();
+    };
+    
+    // TextType для hero-title при загрузці
+    if (heroTitle) {
+      const heroText = heroTitle.textContent;
+      setTimeout(() => {
+        typeText(heroTitle, heroText, 40);
+      }, 300);
+    }
+    
+    // TextType для sec-title при скролле
+    const observerOptions = {
+      threshold: 0.3,
+      rootMargin: '0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.textTypeAnimated) {
+          entry.target.dataset.textTypeAnimated = 'true';
+          const text = entry.target.textContent;
+          typeText(entry.target, text, 40);
+        }
+      });
+    }, observerOptions);
+    
+    secTitles.forEach(title => observer.observe(title));
+  };
+  
+  initTextType();
+  
   // Налаштування навігації
   setupNavigation();
 
@@ -1902,7 +2171,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('wheel', (e) => {
       e.preventDefault();
-      targetScrollY += e.deltaY * 1.4;   // × 1.4 — швидший прохід hero
+      targetScrollY += e.deltaY * 1.8;   // × 1.4 — швидший прохід hero
       targetScrollY = Math.max(0, Math.min(targetScrollY, maxScroll()));
     }, { passive: false });
 
